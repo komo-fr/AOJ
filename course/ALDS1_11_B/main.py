@@ -39,7 +39,12 @@ def search(node_id):
     step_dict[node_id]["end"] = step
 
 
-search(1)
+for node_id in range(1, N + 1):
+    if step_dict[node_id]:
+        # 経由済のノードはスキップする
+        continue
+    search(node_id)
 
 for i in range(N):
-    print(f"{i+1} {step_dict[i+1]['start']} {step_dict[i+1]['end']}")
+    if step_dict[i + 1]:
+        print(f"{i+1} {step_dict[i+1]['start']} {step_dict[i+1]['end']}")
