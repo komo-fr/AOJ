@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_A
 
 N = int(input().split()[0])
 a_list = []
