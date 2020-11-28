@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_11_B
 from collections import defaultdict
 import sys
 
