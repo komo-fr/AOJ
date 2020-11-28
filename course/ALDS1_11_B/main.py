@@ -4,7 +4,7 @@ import sys
 
 N = int(input().split()[0])
 
-# 再起の上限を解除
+# 再帰の上限を解除
 sys.setrecursionlimit(N * 10)
 
 # 隣接ノードの情報 key=node_id, value=隣接するノードのリスト
