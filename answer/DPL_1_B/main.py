@@ -19,6 +19,7 @@ for i in range(N + 1):
 
     for j in range(W + 1):
         if j - items[i].weight < 0:
+            dp[i][j] = dp[i - 1][j]
             continue
         v_0 = dp[i - 1][j - w] + v
         v_1 = dp[i - 1][j]
