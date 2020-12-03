@@ -1,19 +1,11 @@
 #!/usr/bin/env python3
 
 N = int(input().split()[0])
-xy_list = []
-
-for _ in range(N):
-    X = input()
-    Y = input()
-    xy_list.append((X, Y))
 
 
-def calc_max_lcs(X: str, Y: str) -> int:
-    dp = []
+def calc_max_lcs(X: str, Y: str, dp) -> int:
     max_lcs = -float("inf")
     for j in range(len(Y) + 1):
-        dp_row = []
         for i in range(len(X) + 1):
             if i == 0 or j == 0:
                 lcs = 0
@@ -23,13 +15,14 @@ def calc_max_lcs(X: str, Y: str) -> int:
                     lcs = dp[j - 1][i - 1] + 1
                 else:
                     # 上と左
-                    lcs = max([dp[j - 1][i], dp_row[i - 1]])
-            dp_row.append(lcs)
+                    lcs = max([dp[j - 1][i], dp[j][i - 1]])
+            dp[j][i] = lcs
             max_lcs = max([lcs, max_lcs])
-        dp.append(dp_row)
     return max_lcs
 
 
 for i in range(N):
-    X, Y = xy_list[i]
-    print(calc_max_lcs(X, Y))
+    X = input()
+    Y = input()
+    dp_table = [[0] * (len(X) + 2) for _ in range(len(Y) + 2)]
+    print(calc_max_lcs(X, Y, dp_table))
