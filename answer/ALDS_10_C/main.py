@@ -16,16 +16,17 @@ def calc_max_lcs(X: str, Y: str, dp) -> int:
             if XX == YY:
                 # 末尾が一致していたら左斜め上+1
                 pre_lcs = pre_row[i - 1]
-                row[i] = pre_lcs + 1
-                if pre_lcs + 1 > max_lcs:
-                    max_lcs = pre_lcs + 1
+                lcs = pre_lcs + 1
+                if lcs > max_lcs:
+                    max_lcs = lcs
             else:
                 # 上と左
                 top, left = pre_row[i], row[i - 1]
                 if top > left:
-                    row[i] = top
+                    lcs = top
                 else:
-                    row[i] = left
+                    lcs = left
+            row[i] = lcs
         pre_row = row
     return max_lcs
 
