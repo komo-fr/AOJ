@@ -12,33 +12,42 @@ for _ in range(E):
     s, t, d = list(map(int, input().split()))
     edge_list.append(Edge(s, t, d))
 
-# ベルマンフォード法
+# ダイクストラ法（ヒープ無し）
+# #27(08_large_00.in)で15.99sでTLEする
+# #26(07_large_03.in)は1.26sでACするので
+# バグによって無限ループになっている可能性もある
 # 始点ノードrから各ノードへの距離リスト
 d = [float("inf") for _ in range(V)]
-
 d[r] = 0
+# 距離が確定したかどうかのリスト
+done_list = [False for _ in range(V)]
+done_count = 0
 while True:
-    # 更新が発生したかどうか管理するフラグ
-    is_update = False
-    # debug("================================")
-    for i, edge in enumerate(edge_list):
-
-        # debug(f"edge_i={i}: {edge}")
-        # debug(
-        #     f"d[{edge.end}] > (d[{edge.start}] + edge.cost) 【{d[edge.end]} > ({d[edge.start]} + {edge.cost})】"
-        # )
-
-        if (d[edge.start] + edge.cost) < d[edge.end]:
-            # d[edge.end]に直接行くより
-            # d[edge.start]を経由した方が距離コストが小さい
-            is_update = True
-            d[edge.end] = d[edge.start] + edge.cost
-            # debug("★★★★★★更新発生★★★★★★")
-
-    # debug(f"{d=}")
-    if not is_update:
-        # 更新が止まったら終了
+    # 次の確定対象となるノードID
+    # 現時点で距離が未確定のノードのうち、距離が最小になるものを確定する
+    min_d_node_id = None
+    for node_id in range(V):
+        if not done_list[node_id]:
+            # 未確定のノード
+            if min_d_node_id is None or d[node_id] < d[min_d_node_id]:
+                min_d_node_id = node_id
+    if min_d_node_id is None:
+        # 更新が発生しなかったら終了
         break
+    # 全てが完了した
+    done_count += 1
+    if done_count == V:
+        break
+    # 距離が確定
+    done_list[min_d_node_id] = True
+    # min_d_node_idと隣接する他のノードの距離を更新する
+    for edge in edge_list:
+        if edge.start == min_d_node_id:
+            neighbor_node_id = edge.end
+            # min_d_node_idを経由する方が距離が縮まるなら更新する
+            new_d = d[min_d_node_id] + edge.cost
+            d[neighbor_node_id] = min([d[neighbor_node_id], new_d])
+
 
 for dd in d:
     dd = "INF" if dd == float("inf") else dd
